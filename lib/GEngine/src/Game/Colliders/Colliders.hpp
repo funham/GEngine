@@ -70,7 +70,8 @@ struct RectCollider : Collider
 
 struct SegCollider : Collider
 {
-    vec2f p0, p1;
+    float len;
+    vec2f center, normal;
 
     virtual CollisionPoints collision(Collider *coll) override
     {
