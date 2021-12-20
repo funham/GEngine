@@ -44,6 +44,11 @@ struct vec2
         return (v.x == x && v.y == y);
     }
 
+    vec2 operator-() const
+    {
+        return {-x, -y};
+    }
+
     vec2 operator+(vec2 v) const
     {
         return vec2(x + v.x, y + v.y);

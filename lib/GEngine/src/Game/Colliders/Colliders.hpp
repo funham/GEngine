@@ -11,10 +11,10 @@ struct SegCollider;
 
 struct Collider
 {
-    virtual CollisionPoints collision(Collider *) = 0;
-    virtual CollisionPoints collision(CircCollider *) = 0;
-    virtual CollisionPoints collision(RectCollider *) = 0;
-    virtual CollisionPoints collision(SegCollider *) = 0;
+    virtual Hit collision(Collider *) = 0;
+    virtual Hit collision(CircCollider *) = 0;
+    virtual Hit collision(RectCollider *) = 0;
+    virtual Hit collision(SegCollider *) = 0;
 };
 
 struct CircCollider : Collider
@@ -24,22 +24,22 @@ struct CircCollider : Collider
 
     CircCollider(vec2f c, float r) : center(c), radius(r){};
 
-    virtual CollisionPoints collision(Collider *coll) override
+    virtual Hit collision(Collider *coll) override
     {
         return coll->collision(this);
     }
 
-    virtual CollisionPoints collision(CircCollider *circ) override
+    virtual Hit collision(CircCollider *circ) override
+    {
+        return algo::circCircCollision(this, circ);
+    }
+
+    virtual Hit collision(RectCollider *) override
     {
         return {};
     }
 
-    virtual CollisionPoints collision(RectCollider *) override
-    {
-        return {};
-    }
-
-    virtual CollisionPoints collision(SegCollider *) override
+    virtual Hit collision(SegCollider *) override
     {
         return {};
     }
@@ -48,21 +48,21 @@ struct CircCollider : Collider
 struct RectCollider : Collider
 {
     vec2f p0, size;
-    virtual CollisionPoints collision(Collider *coll) override
+    virtual Hit collision(Collider *coll) override
     {
         return coll->collision(this);
     }
 
-    virtual CollisionPoints collision(CircCollider *) override
+    virtual Hit collision(CircCollider *) override
     {
         return {};
     }
 
-    virtual CollisionPoints collision(RectCollider *rect) override
+    virtual Hit collision(RectCollider *rect) override
     {
     }
 
-    virtual CollisionPoints collision(SegCollider *) override
+    virtual Hit collision(SegCollider *) override
     {
         return {};
     }
@@ -73,22 +73,22 @@ struct SegCollider : Collider
     float len;
     vec2f center, normal;
 
-    virtual CollisionPoints collision(Collider *coll) override
+    virtual Hit collision(Collider *coll) override
     {
         return coll->collision(this);
     }
 
-    virtual CollisionPoints collision(CircCollider *) override
+    virtual Hit collision(CircCollider *) override
     {
         return {};
     }
 
-    virtual CollisionPoints collision(RectCollider *) override
+    virtual Hit collision(RectCollider *) override
     {
         return {};
     }
 
-    virtual CollisionPoints collision(SegCollider *) override
+    virtual Hit collision(SegCollider *) override
     {
         return {};
     }

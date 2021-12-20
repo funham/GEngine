@@ -6,14 +6,14 @@
 
 class Obj;
 
-struct CollisionPoints
+struct Hit
 {
-    // A in B and B in A
-    vec2f ab, ba; // in b, in a;
+    vec2f a, b;
+    bool is_valid = false;
 };
 
 struct Collision
 {
     Obj *a, *b;
-    CollisionPoints points;
+    Hit points;
 };
