@@ -8,14 +8,13 @@ namespace algo
 {
     Hit circCircCollision(CircCollider *a, CircCollider *b)
     {
-        auto d = b->center - a->center;
-        Hit hit;
-        hit.is_valid = d.abs_sqr() <= (a->radius + b->radius) * (a->radius + b->radius);
-
-        d.normalize();
-
-        hit.a = a->radius * d;
-        hit.b = b->radius * (-d);
+	Hit hit;
+	
+	auto dc = b->center - a->center;
+        hit.dist =  dc.abs_sqr() -  (a->radius + b->radius) * (a->radius + b->radius);
+	hit.is_valid = sign(hit.dist) + 1;
+        hit.a = a->radius * dc.normalized();
+        hit.b = b->radius * (-dc).normalized();
 
         return hit;
     }

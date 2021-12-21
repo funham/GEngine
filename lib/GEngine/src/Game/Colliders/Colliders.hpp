@@ -34,14 +34,14 @@ struct CircCollider : Collider
         return algo::circCircCollision(this, circ);
     }
 
-    virtual Hit collision(RectCollider *) override
+    virtual Hit collision(RectCollider *rect) override
     {
-        return {};
+        return algo::circRectCollision(this, rect);
     }
 
-    virtual Hit collision(SegCollider *) override
+    virtual Hit collision(SegCollider *seg) override
     {
-        return {};
+        return algo::circSegCollision(this, seg);
     }
 };
 
@@ -55,16 +55,16 @@ struct RectCollider : Collider
 
     virtual Hit collision(CircCollider *) override
     {
-        return {};
+        return ;
     }
 
     virtual Hit collision(RectCollider *rect) override
     {
-    }
+	return algo::rectRectCollision(this, rect);
 
-    virtual Hit collision(SegCollider *) override
+    virtual Hit collision(SegCollider *seg) override
     {
-        return {};
+        return algo::rectSegCollision(this, seg); 
     }
 };
 
@@ -78,18 +78,18 @@ struct SegCollider : Collider
         return coll->collision(this);
     }
 
-    virtual Hit collision(CircCollider *) override
+    virtual Hit collision(CircCollider *circ) override
     {
-        return {};
+        return algo::circSegCollision(circ, this);
     }
 
-    virtual Hit collision(RectCollider *) override
+    virtual Hit collision(RectCollider *rect) override
     {
-        return {};
+	return algo::rectSegCollision(rect, this);
     }
 
-    virtual Hit collision(SegCollider *) override
+    virtual Hit collision(SegCollider *seg) override
     {
-        return {};
+        return algo::segSegCollision(this, seg);
     }
 };
