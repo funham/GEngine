@@ -94,8 +94,10 @@ struct vec2
 
     float dot(vec2 v) const
     {
-        return (x * v.x + y * v.y);
+        return dot(*this, v);
     }
+
+    static float dot(vec2, vec2);
 
     vec2 normalized() const
     {
@@ -168,6 +170,12 @@ template <typename T>
 vec2<T> operator*(float val, vec2<T> v)
 {
     return v * val;
+}
+
+template <typename T>
+float vec2<T>::dot(vec2<T> a, vec2<T> b)
+{
+    return (a.x * b.x + a.y * b.y);
 }
 
 using vec2f = vec2<float>;

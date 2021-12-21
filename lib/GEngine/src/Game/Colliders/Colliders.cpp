@@ -20,14 +20,14 @@ namespace algo
         return hit;
     }
 
-    // ONLY IF SEG's ATTACHED TO THE ORIGIN
     Hit circSegCollision(CircCollider *circ, SegCollider *seg)
     {
         Hit hit;
 
-        hit.a = circ->center - seg->normal * circ->radius; // closest circ's point to the seg
-        hit.b = hit.a - seg->normal * (seg->normal.dot(hit.a));
-        hit.is_valid = sign(seg->normal.dot(hit.a)) + 1; // ax + by >= 0 for {x, y} means it's above the line
+        hit.a = circ->center - seg->normal * circ->radius + seg->center; // closest circ's point to the seg
+        hit.dist = vec2f::dot(seg->normal, hit.a - seg->center);         // distance between seg & circ
+        hit.b = hit.a - seg->normal * hit.dist;                          // closest seg's point to the circ
+        hit.is_valid = sign(hit.dist) + 1;                               // ax + by >= 0 for {x, y} means it's above the line
 
         return hit;
     }

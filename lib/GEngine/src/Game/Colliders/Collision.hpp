@@ -9,11 +9,12 @@ class Obj;
 struct Hit
 {
     vec2f a, b;
+    float dist;
     bool is_valid = false;
 };
 
 struct Collision
 {
     Obj *a, *b;
-    Hit points;
+    Hit hit;
 };
