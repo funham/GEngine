@@ -6,20 +6,27 @@
 
 namespace algo
 {
-    Hit circCircCollision(CircCollider *a, CircCollider *b)
+    Hit collide(CircCollider *a, CircCollider *b)
     {
-	Hit hit;
-	
-	auto dc = b->center - a->center;
-        hit.dist =  dc.abs_sqr() -  (a->radius + b->radius) * (a->radius + b->radius);
-	hit.is_valid = sign(hit.dist) + 1;
+        Hit hit;
+
+        auto dc = b->center - a->center;
+        hit.dist = dc.abs_sqr() - (a->radius + b->radius) * (a->radius + b->radius);
+        hit.is_valid = sign(hit.dist) + 1;
         hit.a = a->radius * dc.normalized();
         hit.b = b->radius * (-dc).normalized();
 
         return hit;
     }
 
-    Hit circSegCollision(CircCollider *circ, SegCollider *seg)
+    Hit collide(CircCollider *a, RectCollider *b)
+    {
+        Hit hit;
+
+        return hit;
+    }
+
+    Hit collide(CircCollider *circ, SegCollider *seg)
     {
         Hit hit;
 
@@ -31,4 +38,24 @@ namespace algo
         return hit;
     }
 
+    Hit collide(RectCollider *a, SegCollider *b)
+    {
+        Hit hit;
+
+        return hit;
+    }
+
+    Hit collide(RectCollider *a, RectCollider *b)
+    {
+        Hit hit;
+
+        return hit;
+    }
+
+    Hit collide(SegCollider *a, SegCollider *b)
+    {
+        Hit hit;
+
+        return hit;
+    }
 }
