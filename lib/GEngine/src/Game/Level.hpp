@@ -1,6 +1,6 @@
 #pragma once
 
-#include "utils/Array.hpp"
+#include "utils/Vector.hpp"
 
 class GObj;
 
@@ -8,7 +8,7 @@ class Level
 {
 private:
     // Game object array
-    Array<GObj *> _gobjects;
+    Vector<GObj *> _gobjects;
 
 public:
     // updates all objects or smth like that
