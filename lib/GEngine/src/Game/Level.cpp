@@ -25,7 +25,7 @@ void Level::update(float dt)
     }
 }
 
-const Array<GObj *> &Level::get_objects()
+const Vector<GObj *> &Level::get_objects()
 {
     return _gobjects;
 }
