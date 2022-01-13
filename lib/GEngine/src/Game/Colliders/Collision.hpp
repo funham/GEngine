@@ -2,7 +2,7 @@
 
 #include "vec2.h"
 #include "utils/math.hpp"
-#include "utils/Array.hpp"
+#include "utils/Vector.hpp"
 
 class Obj;
 
