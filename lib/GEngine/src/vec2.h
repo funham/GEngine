@@ -4,18 +4,10 @@
 #include "utils/types.hpp"
 #include "utils/math.hpp"
 
-template <typename T>
 struct vec2
 {
     vec2() = default;
-    vec2(T x, T y) : x(x), y(y) {}
-
-    template <typename T2>
-    vec2(vec2<T2> &vec)
-    {
-        x = static_cast<T>(vec.x);
-        y = static_cast<T>(vec.y);
-    }
+    vec2(float x, float y) : x(x), y(y) {}
 
     double abs_sqr() const
     {
@@ -34,14 +26,14 @@ struct vec2
         return *this;
     }
 
-    bool operator!=(vec2 v) const
-    {
-        return (v.x != x || v.y != y);
-    }
-
     bool operator==(vec2 v) const
     {
         return (v.x == x && v.y == y);
+    }
+
+    bool operator!=(vec2 v) const
+    {
+        return !(v == *this);
     }
 
     vec2 operator-() const
@@ -59,14 +51,14 @@ struct vec2
         return vec2(x - v.x, y - v.y);
     }
 
-    vec2 &operator+=(vec2 v)
+    void operator+=(vec2 v)
     {
         (*this) = (*this) + v;
     }
 
-    vec2 &operator-=(vec2 v)
+    void operator-=(vec2 v)
     {
-        (*this) = (*this) - v;
+        this->operator=(this->operator-(v));
     }
 
     vec2 operator*(float val) const
@@ -74,22 +66,29 @@ struct vec2
         return vec2{x * val, y * val};
     }
 
-    vec2 operator/(T val) const
+    vec2 operator/(float val) const
     {
-        if (val != 0)
-            return vec2{x / val, y / val};
-        else
-            throw("division by zero");
+        return vec2{x / val, y / val};
+    }
+
+    void operator*=(float val)
+    {
+        (*this) = this->operator*(val);
+    }
+
+    void operator/=(float val)
+    {
+        (*this) = this->operator/(val);
     }
 
     float dist(vec2 v) const
     {
-        sqrt(dist_sqr);
+        sqrt(dist_sqr(v));
     }
 
     float dist_sqr(vec2 v) const
     {
-        return abs_sqr(v - *this);
+        return (v - *this).abs_sqr();
     }
 
     float dot(vec2 v) const
@@ -97,33 +96,32 @@ struct vec2
         return dot(*this, v);
     }
 
-    static float dot(vec2, vec2);
-
     vec2 normalized() const
     {
         return (*this) * Q_rsqrt(abs_sqr());
     }
 
-    void normalize()
+    vec2 &normalize()
     {
-        (*this) = normalized();
+        return (*this) = normalized();
     }
 
+    // may hurt later
     float operator*(vec2 v) const
     {
         return dot(v);
     }
 
-    void rotate(float angle)
+    vec2 &rotate(float angle)
     {
         float ca = cos(angle);
         float sa = sin(angle);
 
-        (*this) = {x * ca - y * sa,
-                   x * sa + y * ca};
+        return (*this) = {x * ca - y * sa,
+                          x * sa + y * ca};
     }
 
-    void rotate(float angle) const
+    vec2 rotated(float angle) const
     {
         float ca = cos(angle);
         float sa = sin(angle);
@@ -132,50 +130,22 @@ struct vec2
                 x * sa + y * ca};
     }
 
-    float get_angle() const
+    float angle() const
     {
         return atan2(y, x);
     }
 
-    void set_angle(float angle)
-    {
-        float mag = abs();
+    static float dot(vec2, vec2);
 
-        x = mag * cos(angle);
-        y = mag * sin(angle);
-    }
-
-    void inv_axis()
-    {
-        T tmp = x;
-        x = y;
-        y = tmp;
-    }
-
-    void inv_axis() const
-    {
-        return {y, x};
-    }
-
-    template <typename T2>
-    operator vec2<T2>()
-    {
-        return {T2(x), T2(y)};
-    }
-
-    T x, y;
+    float x, y;
 };
 
-template <typename T>
-vec2<T> operator*(float val, vec2<T> v)
+vec2 operator*(float val, vec2 v)
 {
     return v * val;
 }
 
-template <typename T>
-float vec2<T>::dot(vec2<T> a, vec2<T> b)
+float vec2::dot(vec2 a, vec2 b)
 {
     return (a.x * b.x + a.y * b.y);
 }
-
-using vec2f = vec2<float>;
