@@ -1,22 +1,25 @@
 #pragma once
 
-#include "utils/Vector.hpp"
+#include <containers/array.hpp>
 
 class GObj;
 
 class Level
 {
-private:
-    // Game object array
-    Vector<GObj *> _gobjects;
+    using obj_p = GObj *;
+    using obj_list_t = array<obj_p>;
 
 public:
-    // updates all objects or smth like that
     void update(float);
 
-    // operations with Game objects
-    const Array<GObj *> &get_objects();
-    void add_obj(GObj *);
-    void remove_obj(GObj *);
-    bool has_obj(GObj *);
+    const obj_list_t &get_objects();
+    void add_obj(obj_p);
+    bool remove_obj(obj_p); // 1 -> succsess; 0 -> obj not found
+    bool has_obj(obj_p);
+
+public:
+    vec2 gravity = vec2::down * 9.8f;
+
+private:
+    obj_list_t _gobjects;
 };

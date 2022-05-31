@@ -1,7 +1,7 @@
 #pragma once
 
 #include "vec2.h"
-#include "Graphics/buffer.hpp"
+#include "Graphics/Matrix/buffer.hpp"
 #include "Graphics/Shape/Shape.h"
 
 class Sprite
@@ -9,16 +9,7 @@ class Sprite
 public:
     struct Rect
     {
-        vec2<uint8_t> pos;
-        uint8_t &x = pos.x;
-        uint8_t &y = pos.y;
-
-        vec2<uint8_t> size;
-        uint8_t &w = size.x;
-        uint8_t &h = size.y;
     };
-
-    Rect rect;
 
 public:
     virtual void draw(Buffer *) = 0;
@@ -54,6 +45,7 @@ protected:
     RectShape _shape;
 
 public:
+    /*
     virtual void draw(Buffer *buff) override
     {
         _shape.f_color = f_color;
@@ -61,5 +53,5 @@ public:
         _shape.p0 = rect.pos;
 
         _shape.draw(buff);
-    }
+    }*/
 };

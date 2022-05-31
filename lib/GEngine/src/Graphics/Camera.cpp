@@ -1,10 +1,9 @@
 #include <stddef.h>
 
 #include "Camera.hpp"
-#include "PostFX/PostFX.hpp"
-#include "buffer.hpp"
+#include "Matrix/buffer.hpp"
 #include "Game/Level.hpp"
-#include "Game/GObj.hpp"
+#include "Game/Entity/GObj.hpp"
 
 void Camera::add_fx(PostFX *fx)
 {
@@ -13,7 +12,7 @@ void Camera::add_fx(PostFX *fx)
 
 void Camera::del_fx(PostFX *fx)
 {
-    _fx.del(fx);
+    _fx.erase(&fx);
 }
 
 void Camera::render(Buffer *buff)

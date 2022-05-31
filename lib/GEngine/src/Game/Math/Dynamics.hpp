@@ -5,15 +5,14 @@
 
 struct Dynamics
 {
-    vec2f pos;
-    vec2f vel;
-    vec2f acc;
-
+    vec2 force;
+    vec2 velocity;
     float mass;
 
-    void do_kinematics(float dt)
+    // call just before update
+    void apply_forces(float dt)
     {
-        vel += acc * dt;
-        pos += vel * dt;
+        velocity += force * dt;
+        force = vec2::zero;
     }
 };

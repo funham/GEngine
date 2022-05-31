@@ -1,6 +1,6 @@
 #pragma once
 
-#include "utils/Array.hpp"
+#include "containers/array.hpp"
 
 class Level;
 class Buffer;
@@ -16,6 +16,8 @@ public:
     void del_fx(PostFX *);
 
 private:
-    Array<PostFX *> _fx;
+    array<PostFX *> _fx;
     Level *_lvl;
+    vec2 pos;
+    float fov;
 };

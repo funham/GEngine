@@ -1,151 +1,62 @@
 #pragma once
 
 #include <cmath>
-#include "utils/types.hpp"
 #include "utils/math.hpp"
 
 struct vec2
 {
     vec2() = default;
-    vec2(float x, float y) : x(x), y(y) {}
+    vec2(float x, float y);
 
-    double abs_sqr() const
-    {
-        return x * x + y * y;
-    }
+    float abs_sqr() const;
+    float abs() const;
 
-    double abs() const
-    {
-        return sqrt(abs_sqr());
-    }
+    vec2 &operator=(vec2 v);
+    vec2 operator-() const;
+    vec2 &flip();
 
-    vec2 &operator=(const vec2 v)
-    {
-        x = v.x;
-        y = v.y;
-        return *this;
-    }
+    bool operator==(vec2 v) const;
+    bool operator!=(vec2 v) const;
 
-    bool operator==(vec2 v) const
-    {
-        return (v.x == x && v.y == y);
-    }
+    vec2 operator+(vec2 v) const;
+    vec2 operator-(vec2 v) const;
 
-    bool operator!=(vec2 v) const
-    {
-        return !(v == *this);
-    }
+    void operator+=(vec2 v);
+    void operator-=(vec2 v);
 
-    vec2 operator-() const
-    {
-        return {-x, -y};
-    }
+    vec2 operator*(float val) const;
+    vec2 operator/(float val) const;
 
-    vec2 operator+(vec2 v) const
-    {
-        return vec2(x + v.x, y + v.y);
-    }
+    void operator*=(float s);
+    void operator/=(float s);
 
-    vec2 operator-(vec2 v) const
-    {
-        return vec2(x - v.x, y - v.y);
-    }
+    float dist(vec2 v) const;
+    float dist_sqr(vec2 v) const;
 
-    void operator+=(vec2 v)
-    {
-        (*this) = (*this) + v;
-    }
-
-    void operator-=(vec2 v)
-    {
-        this->operator=(this->operator-(v));
-    }
-
-    vec2 operator*(float val) const
-    {
-        return vec2{x * val, y * val};
-    }
-
-    vec2 operator/(float val) const
-    {
-        return vec2{x / val, y / val};
-    }
-
-    void operator*=(float val)
-    {
-        (*this) = this->operator*(val);
-    }
-
-    void operator/=(float val)
-    {
-        (*this) = this->operator/(val);
-    }
-
-    float dist(vec2 v) const
-    {
-        sqrt(dist_sqr(v));
-    }
-
-    float dist_sqr(vec2 v) const
-    {
-        return (v - *this).abs_sqr();
-    }
-
-    float dot(vec2 v) const
-    {
-        return dot(*this, v);
-    }
-
-    vec2 normalized() const
-    {
-        return (*this) * Q_rsqrt(abs_sqr());
-    }
-
-    vec2 &normalize()
-    {
-        return (*this) = normalized();
-    }
+    float dot(vec2 v) const;
+    vec2 normalized() const;
+    vec2 &normalize();
 
     // may hurt later
-    float operator*(vec2 v) const
-    {
-        return dot(v);
-    }
+    float operator*(vec2 v) const;
 
-    vec2 &rotate(float angle)
-    {
-        float ca = cos(angle);
-        float sa = sin(angle);
-
-        return (*this) = {x * ca - y * sa,
-                          x * sa + y * ca};
-    }
-
-    vec2 rotated(float angle) const
-    {
-        float ca = cos(angle);
-        float sa = sin(angle);
-
-        return {x * ca - y * sa,
-                x * sa + y * ca};
-    }
-
-    float angle() const
-    {
-        return atan2(y, x);
-    }
+    vec2 &rotate(float angle);
+    vec2 rotated(float angle) const;
+    float angle() const;
 
     static float dot(vec2, vec2);
 
     float x, y;
+
+    static const vec2 zero;
+    static const vec2 up;
+    static const vec2 down;
+    static const vec2 right;
+    static const vec2 left;
 };
 
-vec2 operator*(float val, vec2 v)
-{
-    return v * val;
-}
-
-float vec2::dot(vec2 a, vec2 b)
-{
-    return (a.x * b.x + a.y * b.y);
-}
+const vec2 vec2::zero = vec2(0, 0);
+const vec2 vec2::up = vec2(0, 1);
+const vec2 vec2::down = vec2(0, -1);
+const vec2 vec2::right = vec2(1, 0);
+const vec2 vec2::left = vec2(-1, 0);

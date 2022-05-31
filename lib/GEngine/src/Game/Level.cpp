@@ -1,31 +1,42 @@
 #include "Level.hpp"
-#include "GObj.hpp"
+#include "Entity/GObj.hpp"
+
 #include "stddef.h"
 
 void Level::update(float dt)
 {
+	// TODO: detect collisions
+	// TODO: solve collisions
+	// TODO: update every element
 
-    for (size_t i = 0; i < _gobjects.size() - 1; i++)
-    {
-	for (size_t j = i; j < _gobjects.size(); j++)
+	for (auto &gobj : _gobjects)
 	{
-	    auto &a = _gobjects[i];
-	    auto &b = _gobjects[j];
-	
-	    Hit hit = a->collider->collides(b->collider);
-	    if (hit.is_valid)
-	    {
-		hit.solve(a->dynamics, b->dynamics);
-	    }
+		gobj->update(dt);
 	}
-    }
-    for (auto &gobj : _gobjects)
-    {
-        gobj->update(dt);
-    }
 }
 
-const Vector<GObj *> &Level::get_objects()
+const Level::obj_list_t &Level::get_objects()
 {
-    return _gobjects;
+	return _gobjects;
+}
+
+void Level::add_obj(Level::obj_p p)
+{
+	_gobjects.append(p);
+}
+
+bool Level::remove_obj(Level::obj_p p)
+{
+	auto it = _gobjects.find(p);
+
+	if (it == _gobjects.end())
+		return false; // bad ext_code
+
+	_gobjects.erase(it);
+	return true;
+}
+
+bool Level::has_obj(Level::obj_p p)
+{
+	return _gobjects.find(p) != _gobjects.end();
 }

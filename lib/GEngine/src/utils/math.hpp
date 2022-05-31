@@ -4,7 +4,7 @@
 #include "range.hpp"
 
 template <typename T>
-s8 sign(T x)
+s16 sign(T x)
 {
     return (x > T(0)) - (x < T(0));
 }
